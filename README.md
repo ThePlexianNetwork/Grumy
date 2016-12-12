@@ -1,5 +1,7 @@
 # Grumy
 
+[![Stories in Ready](https://badge.waffle.io/ThePlexianNetwork/Grumy.png?label=ready&title=Ready)](http://waffle.io/ThePlexianNetwork/Grumy)
+
 ## Introduction
 
 Grumy is a simple 2D tile based game about placing and breaking tiles. From 
