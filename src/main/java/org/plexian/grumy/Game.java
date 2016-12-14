@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy;
+package org.plexian.grumy;
 
 import java.util.logging.Logger;
 
@@ -22,13 +22,12 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-
-import main.java.org.plexian.grumy.configuration.YAMLConfiguration;
-import main.java.org.plexian.grumy.entity.LivingEntity;
-import main.java.org.plexian.grumy.opengl.RGBA;
-import main.java.org.plexian.grumy.opengl.SpriteSheet;
-import main.java.org.plexian.grumy.opengl.TextRenderer;
-import main.java.org.plexian.grumy.world.World;
+import org.plexian.grumy.configuration.YAMLConfiguration;
+import org.plexian.grumy.entity.LivingEntity;
+import org.plexian.grumy.opengl.RGBA;
+import org.plexian.grumy.opengl.SpriteSheet;
+import org.plexian.grumy.opengl.TextRenderer;
+import org.plexian.grumy.world.World;
 
 /**
  * This is the main class that runs the game loop and everything for Pendulum.
@@ -37,15 +36,17 @@ import main.java.org.plexian.grumy.world.World;
  * @since 0.1
  */
 public class Game {
+    public static final String VERSION = "0.0.5";
+    
     /**
      * The size of the player's character in OpenGL-pixels.
      */
-    public static float PLAYER_SIZE = 55;
+    public static float PLAYER_SIZE = 5;
 
     /**
      * The size of a tile in OpenGL-pixels.
      */
-    public static float TILE_SIZE = 55;
+    public static float TILE_SIZE = 5;
 
     /**
      * The size of a chunk in tiles.
@@ -55,7 +56,7 @@ public class Game {
     /**
      * The size of a world in chunks.
      */
-    public static float WORLD_SIZE = 15;
+    public static float WORLD_SIZE = 2;
 
     public static final float WORLD_TOP = 14;
 
@@ -102,6 +103,7 @@ public class Game {
          * We use a try loop to be sure that any exceptions are caught.
          */
         try {
+            @SuppressWarnings("unused")
             DisplayMode displayMode = null;
             DisplayMode[] modes = Display.getAvailableDisplayModes();
 
@@ -111,7 +113,7 @@ public class Game {
                 }
             }
 
-            Display.setTitle("Game");
+            Display.setTitle("Grumy - v" + Game.VERSION);
             Display.setFullscreen(false);
             Display.create();
         } catch (Exception e) {
@@ -143,10 +145,8 @@ public class Game {
         GL11.glClearColor(135f / 225f, 206f / 225f, 250 / 225f, 0f);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_ALPHA);
-        // GL11.glEnable(GL11.GL_BLEND);
-        GL11.glAlphaFunc(GL11.GL_GREATER, 0.0f);
-        // GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
         SpriteSheet.tileTextures.bind();
 

@@ -13,11 +13,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world;
+package org.plexian.grumy.world;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.plexian.grumy.Gamemode;
 
 import com.evilco.mc.nbt.tag.ITag;
 import com.evilco.mc.nbt.tag.TagByte;
@@ -26,8 +28,6 @@ import com.evilco.mc.nbt.tag.TagDouble;
 import com.evilco.mc.nbt.tag.TagInteger;
 import com.evilco.mc.nbt.tag.TagLong;
 import com.evilco.mc.nbt.tag.TagString;
-
-import main.java.org.plexian.grumy.Gamemode;
 
 public class WorldData {
 	private long seed;

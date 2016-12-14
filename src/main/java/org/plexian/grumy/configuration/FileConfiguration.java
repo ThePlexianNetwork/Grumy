@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.configuration;
+package org.plexian.grumy.configuration;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,7 +23,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
 
-import main.java.org.plexian.grumy.Game;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.launcher.Launcher;
 
 /**
  * 
@@ -35,7 +36,7 @@ public abstract class FileConfiguration extends Configuration {
      * This is an object that points to the folder that holds all our
      * configuration.
      */
-    public static File CONFIGURATION_FOLDER = new File(System.getProperty("user.home") + "/Pendulum/", "config/");
+    public static File CONFIGURATION_FOLDER = new File(Launcher.GAME_FOLDER, "config/");
 
     /**
      * This is a file object for the configuration.
@@ -211,8 +212,9 @@ public abstract class FileConfiguration extends Configuration {
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             bufferedWriter.write(this.data);
+            bufferedWriter.close();
         } catch (Exception e) {
-            Game.LOG.warning("Exception: " + e.getMessage());
+            Game.LOG.severe("Exception: " + e.getMessage());
         }
     }
 }

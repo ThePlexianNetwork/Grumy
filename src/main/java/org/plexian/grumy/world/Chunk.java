@@ -13,19 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world;
+package org.plexian.grumy.world;
 
 import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
-
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.entity.AABB;
-import main.java.org.plexian.grumy.math.SimplexNoise;
-import main.java.org.plexian.grumy.math.Vector2d;
-import main.java.org.plexian.grumy.opengl.ShaderProgram;
-import main.java.org.plexian.grumy.tile.AnimatedTile;
-import main.java.org.plexian.grumy.tile.Tile;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.entity.AABB;
+import org.plexian.grumy.math.Vector2d;
+import org.plexian.grumy.opengl.ShaderProgram;
+import org.plexian.grumy.tile.AnimatedTile;
+import org.plexian.grumy.tile.Tile;
 
 /**
  * Chunk class to manage large ammount of tiles easily, without putting stress on a lookup-matrix.
@@ -54,7 +52,7 @@ public class Chunk {
 	 * This is simply an accessible way to store the max-offset that the chunk has. It is exactly at the end of the chunk,
 	 * on both X and Y axis.
 	 */
-	private Vector2d endPosition;
+	//private Vector2d endPosition;
 	
 	/**
 	 * This is an array holding the ids of each tile. Some people store the actual tiles in an array, but memory wise this
@@ -148,7 +146,7 @@ public class Chunk {
 	 * @param y The Y-coordinate to create a chunk at.
 	 * @param type The chunk type. (@see type).
 	 */
-	public Chunk(/*ShaderProgram shaderProgram,*/ double x, double y, int type){
+	public Chunk(ShaderProgram shaderProgram, double x, double y, int type){
 		/**
 		 * Multiply the X axis location of the chunk by 16, thus giving it world-coordinates.
 		 */
@@ -168,7 +166,7 @@ public class Chunk {
 		 * We kinda sometimes want to know where the edge of a chunk is, so we calculate this by adding the 
 		 * size of the chunk to the world position.
 		 */
-		this.endPosition = new Vector2d(x + (int)Game.CHUNK_SIZE, y + (int)Game.CHUNK_SIZE);
+		//this.endPosition = new Vector2d(x + (int)Game.CHUNK_SIZE, y + (int)Game.CHUNK_SIZE);
 		
 		/**
 		 * Set the type of this chunk to the given type.
@@ -184,6 +182,8 @@ public class Chunk {
 		 * Set the chunk state to be passive.
 		 */
 		this.state = ChunkState.PASSIVE;
+		
+		this.shaderProgram = shaderProgram;
 		
 		/**
 		 * We need to generate the chunk, so let's tile that tile list.
@@ -206,7 +206,7 @@ public class Chunk {
 		this.state = ChunkState.BUILDING;
 		
 		GL11.glNewList(vcId, GL11.GL_COMPILE);
-		
+
 		/**
 		 * Loop through all the blocks in the chunk.
 		 */
@@ -245,8 +245,6 @@ public class Chunk {
 		 */
 		this.state = ChunkState.BUILDING;
 		
-		SimplexNoise noise = new SimplexNoise();
-		
 		/**
 		 * Loop through all the tiles in the chunk.
 		 */
@@ -270,7 +268,11 @@ public class Chunk {
 		/**
 		 * Calls the OpenGL display list.
 		 */
+	  //  int texLocation = GL20.glGetUniformLocation(shaderProgram.getProgram(), "u_texture");
+     //   GL20.glUniform1i(texLocation, 0);
+      //  shaderProgram.use();
 		GL11.glCallList(vcId);
+	//	shaderProgram.release();
 	}
 	
 	/**
@@ -323,32 +325,17 @@ public class Chunk {
 	 * @return The tile at (x, y) or 0 if not inside this chunk.
 	 */
 	public int getTile(int x, int y){
-		/**
-		 * Basically this is a failsafe to ensure that we don't get an IndexArrayOutOfBounds exception.
-		 * If the x or y given is greater than 15, or x or y < 0, then return 0.
-		 */
 		if(x > 15 || y > 15 || x < 0 || y < 0){
 			return 0;
 		}
-		
-		/**
-		 * Return the tile id at the (x, y) location.
-		 */
 		return tiles[x][y];
 	}
 	
 	public int getBackgroundTile(int x, int y){
-		/**
-		 * Basically this is a failsafe to ensure that we don't get an IndexArrayOutOfBounds exception.
-		 * If the x or y given is greater than 15, or x or y < 0, then return 0.
-		 */
 		if(x > 15 || y > 15 || x < 0 || y < 0){
 			return 0;
 		}
-		
-		/**
-		 * Return the tile id at the (x, y) location.
-		 */
+
 		return backgroundTiles[x][y];
 	}
 	/**
@@ -358,44 +345,31 @@ public class Chunk {
 	 * @param type The id of the tile to place at (x, y).
 	 */
 	public void setTile(int x, int y, int type){
-		/**
-		 * Basically this is a failsafe to ensure that we don't get an IndexArrayOutOfBounds exception.
-		 * If the x or y given is greater than 15, or x or y < 0, then return 0.
-		 */
 		if(x > 15 || y > 15 || x < 0 || y < 0){
 			return;
 		}
 		
-		/**
-		 * Set the tile id at (x, y) to type.
-		 */
 		tiles[x][y] = type;
 		
-		/**
-		 * If the tile is an animated tile, make sure we save it to the list.
-		 */
 		if(Tile.getTile(type) instanceof AnimatedTile){
 			tileAnimationStages[x][y] = 0;
 		}
 	}
 	
+	/**
+	 * 
+	 * @deprecated
+	 * @param x
+	 * @param y
+	 * @param type
+	 */
 	public void setBackgroundTile(int x, int y, int type){
-		/**
-		 * Basically this is a failsafe to ensure that we don't get an IndexArrayOutOfBounds exception.
-		 * If the x or y given is greater than 15, or x or y < 0, then return 0.
-		 */
 		if(x > 15 || y > 15 || x < 0 || y < 0){
 			return;
 		}
 		
-		/**
-		 * Set the tile id at (x, y) to type.
-		 */
 		backgroundTiles[x][y] = type;
 		
-		/**
-		 * If the tile is an animated tile, make sure we save it to the list.
-		 */
 		if(Tile.getTile(type) instanceof AnimatedTile){
 			tileAnimationStages[x][y] = 0;
 		}
@@ -441,5 +415,13 @@ public class Chunk {
 	 */
 	public AABB getTileAsAABB(int x, int y){
 		return new AABB(new Vector2d(x + this.position.x, y + this.position.y), new Vector2d(Game.TILE_SIZE, Game.TILE_SIZE));
+	}
+	
+	/**
+	 * Get the shader for this chunk
+	 * @return The shader for this chunk. Likely the default for each chunk.
+	 */
+	public ShaderProgram getShaderProgram(){
+	    return this.shaderProgram;
 	}
 }

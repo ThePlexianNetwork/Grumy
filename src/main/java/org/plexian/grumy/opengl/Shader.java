@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.opengl;
+package org.plexian.grumy.opengl;
 
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
@@ -30,7 +30,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import main.java.org.plexian.grumy.Game;
+import org.plexian.grumy.Game;
 
 public class Shader {
     private String vertexLoc, fragmentLoc;

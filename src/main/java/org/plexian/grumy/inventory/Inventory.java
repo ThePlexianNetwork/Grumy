@@ -13,36 +13,35 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.inventory;
+package org.plexian.grumy.inventory;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.entity.Entity;
-import main.java.org.plexian.grumy.item.Item;
-import main.java.org.plexian.grumy.opengl.SpriteSheet;
-import main.java.org.plexian.grumy.tile.Tile;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.entity.Entity;
+import org.plexian.grumy.inventory.item.Item;
+import org.plexian.grumy.inventory.item.ItemStack;
+import org.plexian.grumy.opengl.SpriteSheet;
+import org.plexian.grumy.tile.Tile;
 
 public class Inventory {
-    private ArrayList<Item> items;
+    private ArrayList<ItemStack> items;
     private Entity owner;
     private int maxSize;
 
     public Inventory(int size, Entity owner) {
-        this(size, owner, new ArrayList<Item>(size));
+        this(size, owner, new ArrayList<ItemStack>(size));
     }
 
-    public Inventory(int size, Entity owner, ArrayList<Item> initialItems) {
+    public Inventory(int size, Entity owner, ArrayList<ItemStack> initialItems) {
         this.maxSize = size;
         this.owner = owner;
         this.items = initialItems;
     }
 
-    public void addItem(Item item) {
+    public void addItem(ItemStack item) {
         if (this.items.size() + 1 > maxSize) {
             return;
         }
@@ -50,7 +49,7 @@ public class Inventory {
         this.items.add(item);
     }
 
-    public Item getItemAt(int slot) {
+    public ItemStack getItemAt(int slot) {
         return items.get(slot);
     }
 
@@ -58,9 +57,9 @@ public class Inventory {
         items.clear();
     }
 
-    public boolean contains(Item item) {
-        for (Item i : this.items) {
-            if (i.getId() == item.getId()) {
+    public boolean contains(ItemStack item) {
+        for (ItemStack i : this.items) {
+            if (i.getTypeId() == item.getTypeId()) {
                 return true;
             }
         }
@@ -78,13 +77,13 @@ public class Inventory {
 
         int itemRenderCount = 0;
 
-        for (Object i : items) {
+        for (ItemStack i : items) {
             if (itemRenderCount < 10) {
-                Item item = (Item) i;
+                ItemStack item = (ItemStack) i;
                 int x = beginningX + (itemRenderCount * (int) Game.TILE_SIZE);
 
-                if (item.getName() != "air") {
-                    float[] textureCoordinates = item.getTextureCoordinates();
+                if (item.getType().getName() != "air") {
+                    float[] textureCoordinates = item.getType().getDisplayTile().getTextureCoordinates();
                     textureCoordinates[0] *= SpriteSheet.tileTextures.uniformSize();
                     textureCoordinates[1] *= SpriteSheet.tileTextures.uniformSize();
 

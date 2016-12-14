@@ -13,12 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world.particle;
+package org.plexian.grumy.world.particle;
 
 import org.lwjgl.opengl.GL11;
-
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.opengl.RGBA;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.opengl.RGBA;
 
 public class ParticleRenderer {
 	public static void drawParticle(double x, double y, double size, RGBA color){

@@ -13,13 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.material;
+package org.plexian.grumy.material;
 
-import main.java.org.plexian.grumy.tile.Tile;
+import org.plexian.grumy.tile.Tile;
 
 public enum Material {
-    AIR("air", Tile.AIR, 0), 
-    KEY("key", Tile.ITEM_KEY, 1);
+    AIR("air", Tile.AIR, 0),
+    FIRE_MAGIC("fire_magic", Tile.FIRE_MAGIC, 1),
+    GUI_ITEM_SLOT("gui_item_slot", Tile.ITEM_SLOT, Tile.ITEM_SLOT.getId());
 
     private String name;
     private Tile displayTile;
@@ -41,5 +42,16 @@ public enum Material {
 
     public int getMaterialId() {
         return this.materialId;
+    }
+    
+    
+    public static Material getMaterial(int id){
+        for(Material m : values()){
+            if(m.getMaterialId() == id){
+                return m;
+            }
+        }
+        
+        return Material.AIR;
     }
 }

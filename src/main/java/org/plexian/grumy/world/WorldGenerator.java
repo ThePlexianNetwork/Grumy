@@ -13,11 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world;
+package org.plexian.grumy.world;
 
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.math.SimplexNoise;
-import main.java.org.plexian.grumy.tile.Tile;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.math.SimplexNoise;
+import org.plexian.grumy.tile.Tile;
 
 /**
  * 
@@ -26,7 +26,7 @@ import main.java.org.plexian.grumy.tile.Tile;
  */
 public class WorldGenerator {
     private static SimplexNoise noise = new SimplexNoise();
-    private static float frequency = 20f;
+    private static float frequency = 40f;
 
     private static WorldGeneratorBottom bottomGenerator = new WorldGeneratorBottom();
     private static WorldGeneratorStone stoneGenerator = new WorldGeneratorStone(noise, frequency);
@@ -35,8 +35,14 @@ public class WorldGenerator {
     private static WorldGeneratorTree treeGenerator = new WorldGeneratorTree();
 
     public static void generateChunk(Chunk c) {
-        if (!Game.LEVEL_BUILDER) {
+       // if (!Game.LEVEL_BUILDER) {
             int[][] tiles = c.getTiles();
+
+            // Notice we don't use the bottom generator. I felt stupid when each chunk had Darkstone on
+            // the bottom and I couldn't think why :D
+            if(c.getPosition().getY() == 0){
+                tiles = bottomGenerator.generateChunk(tiles, c.getPosition().getX(), c.getPosition().getY());
+            }
             
             tiles = stoneGenerator.generateChunk(tiles, c.getPosition().getX(), c.getPosition().getY()); 
             tiles = dirtGenerator.generateChunk(tiles, c.getPosition().getX(), c.getPosition().getY());
@@ -50,14 +56,11 @@ public class WorldGenerator {
             }
             
             c.rebuild();
-        }
-        
-        //Layer.generateLayer(c);
+      //  }
     }
 
     public static void generateWorld(World w) {
         int[][] tiles = bottomGenerator.generateWorld(w);
-       
         tiles = stoneGenerator.generateWorld(tiles); 
         tiles = dirtGenerator.generateWorld(tiles); 
         tiles = airGenerator.generateWorld(tiles);

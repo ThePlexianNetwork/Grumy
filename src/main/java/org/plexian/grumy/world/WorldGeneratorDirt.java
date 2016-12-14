@@ -13,11 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world;
+package org.plexian.grumy.world;
 
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.math.SimplexNoise;
-import main.java.org.plexian.grumy.tile.Tile;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.math.SimplexNoise;
+import org.plexian.grumy.tile.Tile;
 
 public class WorldGeneratorDirt implements Generator{
 	private SimplexNoise noise;

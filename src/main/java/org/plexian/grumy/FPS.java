@@ -14,7 +14,7 @@
  * the License.
  */
 
-package main.java.org.plexian.grumy;
+package org.plexian.grumy;
 
 public final class FPS {
     /** Frame interval. **/

@@ -13,10 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.entity;
+package org.plexian.grumy.entity;
 
-import main.java.org.plexian.grumy.opengl.RGBA;
-import main.java.org.plexian.grumy.opengl.TextRenderer;
+import org.plexian.grumy.opengl.RGBA;
+import org.plexian.grumy.opengl.TextRenderer;
 
 /**
  * NOTE: Unused

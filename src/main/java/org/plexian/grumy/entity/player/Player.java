@@ -13,21 +13,20 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.entity.player;
+package org.plexian.grumy.entity.player;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.entity.LivingEntity;
-import main.java.org.plexian.grumy.item.Item;
-import main.java.org.plexian.grumy.math.Vector2d;
-import main.java.org.plexian.grumy.opengl.Shader;
-import main.java.org.plexian.grumy.opengl.SpriteSheet;
-import main.java.org.plexian.grumy.tile.Tile;
-import main.java.org.plexian.grumy.world.Location;
+import org.lwjgl.opengl.GL20;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.entity.LivingEntity;
+import org.plexian.grumy.inventory.item.Item;
+import org.plexian.grumy.math.Vector2d;
+import org.plexian.grumy.opengl.Shader;
+import org.plexian.grumy.opengl.SpriteSheet;
+import org.plexian.grumy.tile.Tile;
+import org.plexian.grumy.world.Location;
 
 /**
  * Provides all the methods needed for the player.
@@ -58,7 +57,7 @@ public class Player extends LivingEntity {
         if (Game.LEVEL_BUILDER) {
             STANDARD_VELOCITY = 0.5f;
         } else {
-            STANDARD_VELOCITY = .5f;
+            STANDARD_VELOCITY = 1f;
         }
     }
 
@@ -70,6 +69,9 @@ public class Player extends LivingEntity {
         this.inventory.render();
         this.renderLifeBar();
         GL11.glTranslatef(Display.getWidth() / 2 - Game.PLAYER_SIZE, Display.getHeight() / 2 - Game.PLAYER_SIZE, 1);
+        
+        int texLocation = GL20.glGetUniformLocation(program.getProgram(), "u_texture");
+        GL20.glUniform1i(texLocation, 0);
         this.program.use();
         Tile.drawPlayer(this, 0, 0);
         this.program.release();
@@ -124,10 +126,10 @@ public class Player extends LivingEntity {
         }
 
         if (Game.LEVEL_BUILDER) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
                 Game.world.setTile(location.getX(), location.getY(), 1);
             } else if (Keyboard.isKeyDown(Keyboard.KEY_2)) {
-                Game.world.setTile(location.getX(), location.getY(), 2);
+                Game.world.setTile(location.getX(), location.getY(), Tile.FIRE_MAGIC.getId());
             } else if (Keyboard.isKeyDown(Keyboard.KEY_3)) {
                 Game.world.setTile(location.getX(), location.getY(), 3);
             } else if (Keyboard.isKeyDown(Keyboard.KEY_4)) {
@@ -176,27 +178,7 @@ public class Player extends LivingEntity {
                 Game.world.setTile(location.getX(), location.getY(), 20);
             }
 
-            if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-                Game.world.setTile(location.getX(), location.getY(), 11);
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_2)) {
-                Game.world.setTile(location.getX(), location.getY(), 12);
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_LBRACKET)) {
-                Game.world.setTile(location.getX(), location.getY(), 13);
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_4)) {
-                Game.world.setTile(location.getX(), location.getY(), 14);
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_5)) {
-                Game.world.setTile(location.getX(), location.getY(), 15);
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_6)) {
-                Game.world.setTile(location.getX(), location.getY(), 16);
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_7)) {
-                Game.world.setTile(location.getX(), location.getY(), 17);
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_8)) {
-                Game.world.setTile(location.getX(), location.getY(), 18);
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_9)) {
-                Game.world.setTile(location.getX(), location.getY(), 19);
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_0)) {
-                Game.world.setTile(location.getX(), location.getY(), 0);
-            }
+            
 
             else if (Keyboard.isKeyDown(Keyboard.KEY_M)) {
                 Game.world.setTile((int) location.getX(), (int) location.getY() - 1, Tile.AIR.getId());
@@ -273,10 +255,6 @@ public class Player extends LivingEntity {
                     return;
                 }
 
-                /**
-                 * If the O-key is down, then allow the player to phase through
-                 * tiles.
-                 */
                 if (Keyboard.isKeyDown(Keyboard.KEY_O)) {
                     return;
                 }
@@ -339,17 +317,17 @@ public class Player extends LivingEntity {
      * Check if the player is near something he can pick up.
      */
     public void checkForPickup() {
-        if (Game.world.getTile(this.location.getX(), this.location.getY()) == Tile.KEY_PICKUP.getId()) {
+    /*    if (Game.world.getTile(this.location.getX(), this.location.getY()) == Tile.KEY_PICKUP.getId()) {
             this.inventory.addItem(Item.KEY);
             Game.world.keyManager.checkForPickup(this.location);
-        }
+        }*/
     }
 
     /**
      * Draw the life bar.
      */
     public void renderLifeBar() {
-        float[] textureCoordinates;
+       /* float[] textureCoordinates;
 
         int ammount = (int) this.life / 20;
         int beginningX = Display.getWidth() - (int) (Game.TILE_SIZE / 1.5f)
@@ -364,15 +342,14 @@ public class Player extends LivingEntity {
 
             GL11.glBegin(GL11.GL_QUADS);
             GL11.glTexCoord2f(textureCoordinates[0], textureCoordinates[1] + SpriteSheet.tileTextures.uniformSize());
-            GL11.glVertex2f(x, Display.getHeight() - Game.TILE_SIZE);
-            GL11.glTexCoord2f(textureCoordinates[0] + SpriteSheet.tileTextures.uniformSize(),
-                    textureCoordinates[1] + SpriteSheet.tileTextures.uniformSize());
-            GL11.glVertex2f(x + Game.TILE_SIZE, Display.getHeight() - Game.TILE_SIZE);
+                GL11.glVertex2f(x, Display.getHeight() - Game.TILE_SIZE);
+            GL11.glTexCoord2f(textureCoordinates[0] + SpriteSheet.tileTextures.uniformSize(), textureCoordinates[1] + SpriteSheet.tileTextures.uniformSize());
+                GL11.glVertex2f(x + Game.TILE_SIZE, Display.getHeight() - Game.TILE_SIZE);
             GL11.glTexCoord2f(textureCoordinates[0] + SpriteSheet.tileTextures.uniformSize(), textureCoordinates[1]);
-            GL11.glVertex2f(x + Game.TILE_SIZE, (Display.getHeight() - Game.TILE_SIZE) + Game.TILE_SIZE);
+                GL11.glVertex2f(x + Game.TILE_SIZE, (Display.getHeight() - Game.TILE_SIZE) + Game.TILE_SIZE);
             GL11.glTexCoord2f(textureCoordinates[0], textureCoordinates[1]);
-            GL11.glVertex2f(x, (Display.getHeight() - Game.TILE_SIZE) + Game.TILE_SIZE);
+                GL11.glVertex2f(x, (Display.getHeight() - Game.TILE_SIZE) + Game.TILE_SIZE);
             GL11.glEnd();
-        }
+        }*/
     }
 }

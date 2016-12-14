@@ -13,33 +13,18 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.tile;
+package org.plexian.grumy.inventory.item.meta;
 
-public class TileSand extends Tile{
+import java.util.List;
 
-	@Override
-	public int getId() {
-		return 12;
-	}
-
-	@Override
-	public boolean isTransparent() {
-		return false;
-	}
-
-	@Override
-	public boolean isAnimated() {
-		return false;
-	}
-
-	@Override
-	public boolean isSolid() {
-		return true;
-	}
-
-	@Override
-	public float[] getTextureCoordinates() {
-		return new float[]{2, 3};
-	}
-
+public interface ItemMeta {
+   boolean hasDisplayName();
+   boolean hasLore();
+   String getDisplayName();
+   List<String> getLore();
+   void setDisplayName(String name);
+   void setLore(List<String> lore);
+   boolean isUnbreakable();
+   void setUnbreakable(boolean unbreakable);
+   ItemMeta clone();
 }

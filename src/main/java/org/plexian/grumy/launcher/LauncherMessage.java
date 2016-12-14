@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.launcher;
+package org.plexian.grumy.launcher;
 
 public enum LauncherMessage {
     ERROR("Whoops! There was an error. The best way to move on is to try again."), 

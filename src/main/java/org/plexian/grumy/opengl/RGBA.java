@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.opengl;
+package org.plexian.grumy.opengl;
 
 public class RGBA {
     public static RGBA WHITE = new RGBA(255, 255, 255, 1);
@@ -24,8 +24,20 @@ public class RGBA {
 
     public static RGBA parse(String color) {
         String[] split = color.split(",");
-        String r = split[0], g = split[1], b = split[2], a = split[3];
-
+        String r = "0", g = "0", b = "0", a = "0";
+        
+        if(split.length == 4){
+           r = split[0];
+           g = split[1];
+           b = split[2];
+           a = split[3];
+        }else if(split.length == 3){
+           r = split[0];
+           g = split[1];
+           b = split[2];
+           a = "1.0";
+        }
+        
         return new RGBA(Float.parseFloat(r), Float.parseFloat(g), Float.parseFloat(b), Float.parseFloat(a));
     }
 

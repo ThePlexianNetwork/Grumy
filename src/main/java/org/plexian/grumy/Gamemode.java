@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy;
+package org.plexian.grumy;
 
 public enum Gamemode {
     NORMAL(0), 

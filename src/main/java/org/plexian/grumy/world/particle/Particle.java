@@ -13,11 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world.particle;
+package org.plexian.grumy.world.particle;
 
 import org.lwjgl.opengl.GL11;
-
-import main.java.org.plexian.grumy.opengl.RGBA;
+import org.plexian.grumy.opengl.RGBA;
 
 public class Particle {
 	private double x, y, dx, dy, size;

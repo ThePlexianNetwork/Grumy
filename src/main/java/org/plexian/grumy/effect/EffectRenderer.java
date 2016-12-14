@@ -13,12 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.effect;
+package org.plexian.grumy.effect;
 
 import java.util.Random;
 
-import main.java.org.plexian.grumy.math.Vector2d;
-import main.java.org.plexian.grumy.world.particle.ParticleFactory;
+import org.plexian.grumy.math.Vector2d;
+import org.plexian.grumy.world.particle.ParticleFactory;
 
 public class EffectRenderer {
 

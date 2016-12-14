@@ -13,15 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.configuration;
+package org.plexian.grumy.configuration;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.HashMap;
 
+import org.plexian.grumy.Game;
 import org.yaml.snakeyaml.Yaml;
-
-import main.java.org.plexian.grumy.Game;
 
 /**
  * Provides the methods and required stuff to use YAML as a configuration

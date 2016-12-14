@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.opengl;
+package org.plexian.grumy.opengl;
 
 public class SpriteSheet {
     public static SpriteSheet tileTextures = new SpriteSheet("textures/default.png", 32);

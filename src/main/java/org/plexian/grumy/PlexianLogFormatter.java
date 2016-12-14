@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy;
+package org.plexian.grumy;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,13 +29,13 @@ import java.util.logging.LogRecord;
  * @since 0.2
  */
 public class PlexianLogFormatter extends Formatter {
+    @SuppressWarnings("unused")
     private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
 
     /**
      * This simply formats any log message.
      * 
-     * @param record
-     *        The record passed to format.
+     * @param record The record passed to format.
      */
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
@@ -53,5 +53,4 @@ public class PlexianLogFormatter extends Formatter {
     public String getTail(Handler h) {
         return super.getTail(h);
     }
-
 }

@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.opengl;
+package org.plexian.grumy.opengl;
 
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_RGBA;
@@ -38,8 +38,7 @@ import java.nio.ByteBuffer;
 import javax.imageio.ImageIO;
 
 import org.lwjgl.BufferUtils;
-
-import main.java.org.plexian.grumy.Game;
+import org.plexian.grumy.Game;
 
 public class Texture {
 	public int id, width, height;

@@ -13,9 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.entity;
+package org.plexian.grumy.entity;
 
-import main.java.org.plexian.grumy.math.Vector2d;
+import org.plexian.grumy.math.Vector2d;
 
 /**
  * Provides the required methods and fields to test and run collisions with

@@ -13,15 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.item;
+package org.plexian.grumy.inventory.item;
 
 import java.util.Collection;
 import java.util.HashMap;
 
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.tile.Tile;
-import main.java.org.plexian.grumy.world.Location;
-import main.java.org.plexian.grumy.world.World;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.tile.Tile;
+import org.plexian.grumy.world.Location;
+import org.plexian.grumy.world.World;
 
 public class KeyManager {
     private World world;
@@ -53,7 +53,7 @@ public class KeyManager {
     public void update() {
         for (String s : this.keys.keySet()) {
             Game.world.setTile(Location.parseLocation(s).getX(), Location.parseLocation(s).getY(),
-                    Tile.KEY_PICKUP.getId());
+                    Tile.AIR.getId()); // TODO: <-- Change to Tile.KEY
         }
     }
 

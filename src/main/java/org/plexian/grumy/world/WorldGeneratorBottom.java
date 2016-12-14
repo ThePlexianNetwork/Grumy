@@ -13,27 +13,32 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world;
+package org.plexian.grumy.world;
 
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.tile.Tile;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.tile.Tile;
 
 public class WorldGeneratorBottom implements Generator{
 
 	public int[][] generateChunk(int[][] tiles, double xPos, double yPos){
-		for(int x = 0; x < tiles.length; x++){
-			tiles[x][0] = Tile.AIR.getId();
-			tiles[x][1] = Tile.AIR.getId();
-		}
+	    for(int y = 0; y < tiles.length; y++){
+	        for(int x = 0; x < tiles[y].length; x++){
+	            tiles[x][y] = Tile.DARKSTONE.getId();
+	            tiles[x][y] = Tile.DARKSTONE.getId();
+	        }
+	    }
 		
 		return tiles;
 	}
 	
 	public int[][] generateWorld(int[][] tiles){
-		for(int x = 0; x < tiles.length; x++){
-			tiles[x][0] = Tile.AIR.getId();
-			tiles[x][1] = Tile.AIR.getId();
-		}
+	    for(int y = 0; y < tiles.length; y++){
+            for(int x = 0; x < tiles[y].length; x++){
+                tiles[x][y] = Tile.DARKSTONE.getId();
+                tiles[x][y] = Tile.DARKSTONE.getId();
+            }
+        }
+        
 		
 		return tiles;
 	}

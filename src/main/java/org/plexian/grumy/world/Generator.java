@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world;
+package org.plexian.grumy.world;
 
 public interface Generator {
 	public int[][] generateChunk(int[][] tiles, double posX, double posY);

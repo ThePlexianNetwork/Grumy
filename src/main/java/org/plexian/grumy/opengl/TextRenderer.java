@@ -13,11 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.opengl;
+package org.plexian.grumy.opengl;
 
 import org.lwjgl.opengl.GL11;
-
-import main.java.org.plexian.grumy.Game;
+import org.plexian.grumy.Game;
 
 public class TextRenderer {
     /**
@@ -28,7 +27,7 @@ public class TextRenderer {
      */
     public static void drawString(String s, double x, double y, RGBA color) {
         int startX = (int) x;
-        GL11.glColor3f(color.getR(), color.getG(), color.getB());
+        GL11.glColor4f(color.getR(), color.getG(), color.getB(), color.getA());
         GL11.glBegin(GL11.GL_POINTS);
         for (char c : s.toLowerCase().toCharArray()) {
             if (c == 'a') {

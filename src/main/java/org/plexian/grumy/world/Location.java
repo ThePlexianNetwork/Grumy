@@ -13,11 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world;
+package org.plexian.grumy.world;
 
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.math.Vector2d;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.math.Vector2d;
 
+/**
+ * TODO: Document
+ * @author walt
+ *
+ */
 public class Location {
 	private World world;
 	private double x;
@@ -63,6 +68,22 @@ public class Location {
 	
 	public void setY(double y){
 		this.y = y;
+	}
+	
+	public double getRotX(){
+	    return this.rotX;
+	}
+	
+	public void setRotX(double rotX){
+	    this.rotX = rotX;
+	}
+	
+	public double getRotY(){
+	    return this.rotY;
+	}
+	
+	public void setRotY(double rotY){
+	    this.rotY = rotY;
 	}
 	
 	public void add(double x, double y){

@@ -13,15 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world.particle;
+package org.plexian.grumy.world.particle;
 
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
-
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.math.Vector2d;
-import main.java.org.plexian.grumy.opengl.RGBA;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.math.Vector2d;
+import org.plexian.grumy.opengl.RGBA;
 
 public class ParticleFactory{
 	private ArrayList<Particle> particles;

@@ -13,36 +13,33 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world;
+package org.plexian.grumy.world;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-
-import main.java.org.plexian.grumy.Game;
-import main.java.org.plexian.grumy.configuration.FileManager;
-import main.java.org.plexian.grumy.entity.AABB;
-import main.java.org.plexian.grumy.entity.Entity;
-import main.java.org.plexian.grumy.entity.EntityManager;
-import main.java.org.plexian.grumy.entity.player.Player;
-import main.java.org.plexian.grumy.item.KeyManager;
-import main.java.org.plexian.grumy.math.Vector2d;
-import main.java.org.plexian.grumy.opengl.RGBA;
-import main.java.org.plexian.grumy.opengl.Shader;
-import main.java.org.plexian.grumy.opengl.ShaderProgram;
-import main.java.org.plexian.grumy.tile.Tile;
-import main.java.org.plexian.grumy.world.particle.ParticleFactory;
+import org.lwjgl.opengl.GL20;
+import org.plexian.grumy.Game;
+import org.plexian.grumy.configuration.FileManager;
+import org.plexian.grumy.entity.AABB;
+import org.plexian.grumy.entity.Entity;
+import org.plexian.grumy.entity.EntityManager;
+import org.plexian.grumy.entity.player.Player;
+import org.plexian.grumy.inventory.item.KeyManager;
+import org.plexian.grumy.math.Vector2d;
+import org.plexian.grumy.math.Vector2f;
+import org.plexian.grumy.opengl.RGBA;
+import org.plexian.grumy.opengl.Shader;
+import org.plexian.grumy.opengl.ShaderProgram;
+import org.plexian.grumy.tile.Tile;
+import org.plexian.grumy.world.particle.ParticleFactory;
 
 
 public class World {
-	public List entityList = new ArrayList();
-	public List players = new ArrayList();
 	public Random random = new Random();
 	public int tick = 0;
 	
@@ -62,7 +59,8 @@ public class World {
 	public KeyManager keyManager;
 	
 	private String name;
-	private ConcurrentHashMap<String, Chunk> chunkMap, chunkRenderMap;
+	private ConcurrentHashMap<String, Chunk> chunkMap;
+	private ConcurrentHashMap<String, Chunk> chunkRenderMap;
 	private boolean load = true;
 	private ParticleFactory factory;
 	private Player player;
@@ -89,11 +87,8 @@ public class World {
 			this.dialogManager = new DialogManager(this);
 			this.keyManager = new KeyManager(this);
 			
-			this.player = new Player(new Location(this, 21, 107));
-			//this.enemy = new Anti(new Location(this, 10, 10));
-			
+			this.player = new Player(new Location(this, 21, 10));
 			this.entityManager.addEntity(player);
-		//	this.entityManager.addEntity(enemy);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -111,7 +106,7 @@ public class World {
 		if(this.fileManager.getConfiguration().getRootSection().getConfigurationSection("world").getList("dialog") != null){
 			for(Object m : this.fileManager.getConfiguration().getRootSection().getConfigurationSection("world").getList("dialog")){
 				if(m instanceof HashMap){
-					HashMap m1 = (HashMap)m;
+					HashMap<?,?> m1 = (HashMap<?,?>)m;
 					
 					String location = "", message = "", color = "";
 					
@@ -125,38 +120,22 @@ public class World {
 				}
 			}
 		}
-		
-		Game.LOG.info("Adding keys...");
-		
-		if(this.fileManager.getConfiguration().getRootSection().getConfigurationSection("world").getList("dialog") != null){
-			for(Object m : this.fileManager.getConfiguration().getRootSection().getConfigurationSection("world").getList("keys")){
-				if(m instanceof HashMap){
-					HashMap m1 = (HashMap)m;
-					
-					String location = (String)m1.get("location");
-					int tileReplaceId = (Integer)m1.get("replace");
-					
-					keyManager.addKey(Location.parseLocation(location), tileReplaceId);
-				}
-			}
-		}
-		
+	
 		Game.LOG.info("Generating Chunks... May take a while.");
-		
 		for(int x = 0; x < Game.WORLD_SIZE; x++){
 			for(int y = 0; y < Game.WORLD_SIZE; y++){
 				Chunk c = fileManager.loadChunk(x, y);
 				
 				if(c != null && this.load){
 					chunkMap.put(new Vector2d(x, y).toString(), c);
-				}else{
+				}else if(c == null || !this.load){
 					if(Game.LEVEL_BUILDER){
-						chunkMap.put(new Vector2d(x, y).toString(), new Chunk(/*new ShaderProgram(defaultShader.getvShader(), defaultShader.getfShader()),*/ x, y, 0));
+						chunkMap.put(new Vector2d(x, y).toString(), new Chunk(this.shader, x, y, 0));
 					}else{
 						/**
 						 * If we on the top chunk
 						 */
-						chunkMap.put(new Vector2d(x, y).toString(), new Chunk(x, y, 2));
+						chunkMap.put(new Vector2d(x, y).toString(), new Chunk(this.shader, x, y, 2));
 					}
 				}
 			}
@@ -171,32 +150,25 @@ public class World {
 	 * This simply renders the chunks.
 	 */
 	public void render(){
-		entityManager.getEntity(0).render();
+	    entityManager.getEntity(0).render();
 		
 		/**
 		 * This moves to the players actual location to draw the player.
 		 */
 		GL11.glTranslated(-entityManager.getEntity(0).getLocation().getX()  * Game.PLAYER_SIZE, -entityManager.getEntity(0).getLocation().getY() * Game.PLAYER_SIZE, -1);
 		
-		/**
-		 * This draws the player.
-		 */
-		entityManager.render();
 		renderTopObjects();
-		
-		shader.use();
+		entityManager.render();		
+
+		int texLocation = GL20.glGetUniformLocation(shader.getProgram(), "u_texture");
+	    GL20.glUniform1i(texLocation, 0);
+		this.shader.use();
 		for(Chunk c : chunkRenderMap.values()){
 			if(Math.sqrt(((c.getPosition().getX() - player.getLocation().getX())*(c.getPosition().getX() - player.getLocation().getX())) + ((c.getPosition().getY() - player.getLocation().getY()) * (c.getPosition().getY() - player.getLocation().getY()))) < Game.CHUNK_SIZE*3){
 				c.render();
 			}
 		}
-		shader.release();
-		
-		for(Chunk c : chunkRenderMap.values()){
-			if(Math.sqrt(((c.getPosition().getX() - player.getLocation().getX())*(c.getPosition().getX() - player.getLocation().getX())) + ((c.getPosition().getY() - player.getLocation().getY()) * (c.getPosition().getY() - player.getLocation().getY()))) < Game.CHUNK_SIZE*3){
-				c.update(tick % 2 == 0);
-			}
-		}
+		this.shader.release();
 	}
 
 	public void renderTopObjects(){
@@ -228,6 +200,14 @@ public class World {
 		chunkRenderMap.put(player.getLocation().toVector2d().add(-Game.CHUNK_SIZE, Game.CHUNK_SIZE).toString(), getChunk(player.getLocation().getX() - Game.CHUNK_SIZE, player.getLocation().getY() + Game.CHUNK_SIZE));
 		chunkRenderMap.put(player.getLocation().toVector2d().add(-Game.CHUNK_SIZE, -Game.CHUNK_SIZE).toString(),	getChunk(player.getLocation().getX() - Game.CHUNK_SIZE, player.getLocation().getY() - Game.CHUNK_SIZE));
 		
+		
+		/* TODO: Decide if we want to update all chunks or just ones within the player's view */
+		for(Chunk c : chunkRenderMap.values()){
+            if(Math.sqrt(((c.getPosition().getX() - player.getLocation().getX())*(c.getPosition().getX() - player.getLocation().getX())) + ((c.getPosition().getY() - player.getLocation().getY()) * (c.getPosition().getY() - player.getLocation().getY()))) < Game.CHUNK_SIZE*3){
+                c.update(tick % 2 == 0);
+            }
+        }
+		
 		if(Keyboard.isKeyDown(Keyboard.KEY_P)){
 			factory.addParticle();
 		}
@@ -249,7 +229,7 @@ public class World {
 	public void dispose(){
 		try{
 			Game.LOG.info("Saving world \"" + name + "\"...");
-			//entityManager.dispose();
+			entityManager.dispose();
 			dialogManager.dispose();
 			
 			for(Chunk c : chunkMap.values()){
@@ -285,19 +265,30 @@ public class World {
 
 		if(c == null){
 			if(x >= 0 && y >= 0){
-				chunkMap.put(worldToChunkCoordinates(x, y).toString(), new Chunk(worldToChunkCoordinates(x, y).getX(), worldToChunkCoordinates(x, y).getY(), 1));
+			    Vector2d chunkCoords = worldToChunkCoordinates(x, y);
+
+			    if(this.load && this.fileManager.loadChunk((int)chunkCoords.getX(), (int)chunkCoords.getY()) != null){
+			        c = this.fileManager.loadChunk((int)chunkCoords.getX(), (int)chunkCoords.getY());
+			        chunkMap.put(chunkCoords.toString(), c);
+			        c = chunkMap.get(worldToChunkCoordinates(x, y).toString());
+			    }else{
+			        chunkMap.put(worldToChunkCoordinates(x, y).toString(), new Chunk(shader, worldToChunkCoordinates(x, y).getX(), worldToChunkCoordinates(x, y).getY(), 2));
 		
+			        c = chunkMap.get(worldToChunkCoordinates(x, y).toString());
+			        WorldGenerator.generateChunk(c);
+
+			        c.rebuild();
+			    }
+			    
+			    Game.WORLD_SIZE++;
+			}else{
+				chunkMap.put(worldToChunkCoordinates(x, y).toString(), new Chunk(shader, worldToChunkCoordinates(x, y).getX(), worldToChunkCoordinates(x, y).getY(), 2));
+				
 				c = chunkMap.get(worldToChunkCoordinates(x, y).toString());
 				
 				WorldGenerator.generateChunk(c);
 				Game.WORLD_SIZE++;
 				c.rebuild();
-			}else{
-				chunkMap.put(worldToChunkCoordinates(x, y).toString(), new Chunk(worldToChunkCoordinates(x, y).getX(), worldToChunkCoordinates(x, y).getY(), 2));
-				
-				c = chunkMap.get(worldToChunkCoordinates(x, y).toString());
-				
-				Game.WORLD_SIZE++;
 			}
 		}
 	
@@ -340,7 +331,8 @@ public class World {
 		return c.getTileAsAABB(x % (int)Game.CHUNK_SIZE, y % (int)Game.CHUNK_SIZE);
 	}
 	
-	public Entity getEntity(double x, double y){
+	@SuppressWarnings("deprecation")
+    public Entity getEntity(double x, double y){
 		return entityManager.getEntity(new Location(this, x, y));
 	}
 	
@@ -375,7 +367,7 @@ public class World {
 	}
 	
 	public boolean isDigableTile(int id){
-		if(id == Tile.SAND.getId()){
+		if(id == Tile.AIR.getId()){
 			return true;
 		}
 		

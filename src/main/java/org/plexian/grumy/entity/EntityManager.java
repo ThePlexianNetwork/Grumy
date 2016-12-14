@@ -13,14 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.entity;
+package org.plexian.grumy.entity;
 
 import java.util.Collection;
 import java.util.HashMap;
 
-import main.java.org.plexian.grumy.entity.player.Player;
-import main.java.org.plexian.grumy.world.Location;
-import main.java.org.plexian.grumy.world.World;
+import org.plexian.grumy.entity.player.Player;
+import org.plexian.grumy.world.Location;
+import org.plexian.grumy.world.World;
 
 /**
  * Manages all the entities in a world.

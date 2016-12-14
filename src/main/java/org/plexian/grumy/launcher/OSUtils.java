@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.launcher;
+package org.plexian.grumy.launcher;
 
 import java.io.File;
 

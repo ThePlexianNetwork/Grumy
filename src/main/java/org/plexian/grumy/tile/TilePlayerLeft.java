@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.tile;
+package org.plexian.grumy.tile;
 
 public class TilePlayerLeft extends Tile {
 
@@ -24,7 +24,7 @@ public class TilePlayerLeft extends Tile {
 
 	@Override
 	public boolean isTransparent() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class TilePlayerLeft extends Tile {
 
 	@Override
 	public float[] getTextureCoordinates() {
-		return new float[]{2, 0};
+		return new float[]{1, 0};
 	}
 
 }

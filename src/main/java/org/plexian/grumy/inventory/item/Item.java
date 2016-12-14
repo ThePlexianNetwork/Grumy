@@ -13,33 +13,21 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.tile;
+package org.plexian.grumy.inventory.item;
 
-public class TileSteel extends Tile {
+import java.util.HashMap;
 
-	@Override
-	public int getId() {
-		return 3;
-	}
+public abstract class Item {
+    private static HashMap<Integer, Item> itemMap = new HashMap<Integer, Item>();
 
-	@Override
-	public boolean isTransparent() {
-		return false;
-	}
+    public abstract String getName();
 
-	@Override
-	public boolean isSolid(){
-		return true;
-	}
-	
-	@Override
-	public boolean isAnimated() {
-		return false;
-	}
+    public abstract float[] getTextureCoordinates();
 
-	@Override
-	public float[] getTextureCoordinates() {
-		return new float[]{0, 3};
-	}
+    static {
+    };
 
+    public static Item getItem(int id) {
+        return itemMap.get(id);
+    }
 }

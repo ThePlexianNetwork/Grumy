@@ -13,13 +13,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.entity;
+package org.plexian.grumy.entity;
 
-import main.java.org.plexian.grumy.inventory.Inventory;
-import main.java.org.plexian.grumy.math.Vector2d;
-import main.java.org.plexian.grumy.opengl.Shader;
-import main.java.org.plexian.grumy.world.Location;
-import main.java.org.plexian.grumy.world.World;
+import org.plexian.grumy.inventory.Inventory;
+import org.plexian.grumy.math.Vector2d;
+import org.plexian.grumy.opengl.Shader;
+import org.plexian.grumy.world.Location;
+import org.plexian.grumy.world.World;
 
 /**
  * The class for a living entity, that is an entity with life.

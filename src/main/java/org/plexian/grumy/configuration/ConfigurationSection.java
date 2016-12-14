@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.configuration;
+package org.plexian.grumy.configuration;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +26,7 @@ import java.util.Map;
  * @author walt
  * @category Configuration
  */
+@SuppressWarnings("unchecked")
 public class ConfigurationSection extends Configuration {
     /**
      * This map stores all the data for the configuration.
@@ -272,15 +273,16 @@ public class ConfigurationSection extends Configuration {
         /**
          * No .s in the path, so we just directly lookup the object.
          */
-        return new ConfigurationSection((Map<String, Object>) (this.dataMap.get(key) != null ? this.dataMap.get(key)
-                : new HashMap<String, Object>()));
+        return new ConfigurationSection(
+                (Map<String, Object>) 
+                    (this.dataMap.get(key) != null ? this.dataMap.get(key) : new HashMap<String, Object>())
+        );
     }
 
     /**
      * Get a map (Map<String, Object>) at location $key.
      * 
-     * @param key
-     *            The location of the map.
+     * @param key The location of the map.
      * @return The map at location $key.
      */
     public Map<String, Object> getMap(String key) {
@@ -357,7 +359,7 @@ public class ConfigurationSection extends Configuration {
          * descend all the way down to object 'walt' before adding the object.
          */
         if (key.contains(".")) {
-            String[] paths = key.split("\\.");
+            //String[] paths = key.split("\\.");
 
             /**
              * We then fetch the object.

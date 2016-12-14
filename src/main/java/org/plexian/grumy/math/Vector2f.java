@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.math;
+package org.plexian.grumy.math;
 
 public class Vector2f {
     public static Vector2f ZERO = new Vector2f(0, 0);

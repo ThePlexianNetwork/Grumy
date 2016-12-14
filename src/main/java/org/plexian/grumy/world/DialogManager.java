@@ -13,12 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.world;
+package org.plexian.grumy.world;
 
 import java.util.Collection;
 import java.util.HashMap;
 
-import main.java.org.plexian.grumy.opengl.RGBA;
+import org.plexian.grumy.opengl.RGBA;
 
 /**
  * Manages the dialog for the world, allows for the addition and deletion of in-game dialog.
@@ -91,9 +91,10 @@ public class DialogManager {
 	 * Delete all the dialog.
 	 */
 	public void dispose(){
-		for(Dialog d : dialogMap.values()){
-		}
-		
 		dialogMap.clear();
+	}
+	
+	public World getWorld(){
+	    return this.world;
 	}
 }

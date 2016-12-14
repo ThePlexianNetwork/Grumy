@@ -13,9 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package main.java.org.plexian.grumy.entity.player;
+package org.plexian.grumy.entity.player;
 
-import main.java.org.plexian.grumy.effect.EffectRenderer.EffectType;
+import org.plexian.grumy.effect.EffectRenderer.EffectType;
 
 public class PlayerEffect {
     private Player player;
