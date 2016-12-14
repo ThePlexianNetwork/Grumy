@@ -12,4 +12,7 @@ Latest:
 9. Fixed RGBA parsing from string if a value is missing.
 10. Fixed the world loader/saver to rely on user input. The game was somewhere between a single-world and multiworld setup, but not its multiworld
 11. Fixed world generator so now "bottom" chunks are reall cool looking.
-12. Created a bug where dialog isn't rendered if there aren't any non-transparent tiles on the screen.
+12. Added basic Maven support
+13. Working on "paulscode" sound system implemenation. Should be done in next commit.
+14. Added licenses to LWJGL and paulscode libraries. Adding Snakeyaml and NBT later
+15. Created a bug where dialog isn't rendered if there aren't any non-transparent tiles on the screen.
