@@ -57,6 +57,7 @@ public class World {
 	public EntityManager entityManager;
 	public DialogManager dialogManager;
 	public KeyManager keyManager;
+	public SoundManager soundManager;
 	
 	private String name;
 	private ConcurrentHashMap<String, Chunk> chunkMap;
@@ -86,6 +87,7 @@ public class World {
 			this.entityManager = new EntityManager(this);
 			this.dialogManager = new DialogManager(this);
 			this.keyManager = new KeyManager(this);
+			this.soundManager = new SoundManager();
 			
 			this.player = new Player(new Location(this, 21, 10));
 			this.entityManager.addEntity(player);
@@ -372,5 +374,9 @@ public class World {
 		}
 		
 		return false;
+	}
+	
+	public SoundManager getSoundManager(){
+	    return this.soundManager;
 	}
 }

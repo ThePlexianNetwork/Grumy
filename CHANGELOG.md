@@ -1,6 +1,9 @@
 # Changes By Commit/Release
 
 Latest:
+1. Added sounds for digging and placing blocks.
+
+96cd49c377759638a2fe4a94c1930798f40af144 (12/14/16):
 1. Added Alpha variable to text rendering
 2. Removed Keys from world configuration
 3. Re-implemented world generator

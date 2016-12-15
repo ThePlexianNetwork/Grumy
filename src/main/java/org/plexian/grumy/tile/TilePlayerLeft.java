@@ -39,7 +39,7 @@ public class TilePlayerLeft extends Tile {
 
 	@Override
 	public float[] getTextureCoordinates() {
-		return new float[]{1, 0};
+		return new float[]{3, 1};
 	}
 
 }

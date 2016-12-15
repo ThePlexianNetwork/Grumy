@@ -27,6 +27,8 @@ import org.plexian.grumy.opengl.Shader;
 import org.plexian.grumy.opengl.SpriteSheet;
 import org.plexian.grumy.tile.Tile;
 import org.plexian.grumy.world.Location;
+import org.plexian.grumy.world.Sound;
+import org.plexian.grumy.world.SoundManager;
 
 /**
  * Provides all the methods needed for the player.
@@ -128,6 +130,7 @@ public class Player extends LivingEntity {
         if (Game.LEVEL_BUILDER) {
             if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
                 Game.world.setTile(location.getX(), location.getY(), 1);
+                Game.world.getSoundManager().playSound(Sound.TILE_BREAK);
             } else if (Keyboard.isKeyDown(Keyboard.KEY_2)) {
                 Game.world.setTile(location.getX(), location.getY(), Tile.FIRE_MAGIC.getId());
             } else if (Keyboard.isKeyDown(Keyboard.KEY_3)) {
@@ -145,6 +148,7 @@ public class Player extends LivingEntity {
             } else if (Keyboard.isKeyDown(Keyboard.KEY_9)) {
                 Game.world.setTile(location.getX(), location.getY(), 9);
             } else if (Keyboard.isKeyDown(Keyboard.KEY_0)) {
+                Game.world.getSoundManager().playSound(Sound.TILE_BREAK);
                 Game.world.setTile(location.getX(), location.getY(), 0);
             } else if (Keyboard.isKeyDown(Keyboard.KEY_1)
                     && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))) {
@@ -185,6 +189,7 @@ public class Player extends LivingEntity {
                 Game.world.setTile((int) location.getX(), (int) location.getY() + 1, Tile.AIR.getId());
                 Game.world.setTile((int) location.getX() - 1, (int) location.getY(), Tile.AIR.getId());
                 Game.world.setTile((int) location.getX() + 1, (int) location.getY(), Tile.AIR.getId());
+                Game.world.getSoundManager().playSound(Sound.TILE_BREAK);
             }
 
             if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
