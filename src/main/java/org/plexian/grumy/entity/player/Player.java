@@ -243,8 +243,8 @@ public class Player extends LivingEntity {
         if (this.velocity.x % 2 == 0 || this.velocity.y % 2 == 0) {
             this.oldLocation.setX(this.location.getX());
             this.oldLocation.setY(this.location.getY());
-            this.location.setX(this.location.getX() + (this.velocity.getX() * delta));
-            this.location.setY(this.location.getY() + (this.velocity.getY() * delta));
+            this.location.setX(this.location.getX() + (this.velocity.getX()));
+            this.location.setY(this.location.getY() + (this.velocity.getY()));
             this.aabb.move(this.location.getX(), this.location.getY());
             this.velocity.multiply(0, 0);
 
@@ -292,7 +292,7 @@ public class Player extends LivingEntity {
      *            The Y-velocity to set.
      */
     public void addVelocity(double x, double y) {
-        this.velocity.add(x / delta, y / delta);
+        this.velocity.add(x, y);
     }
 
     /**
